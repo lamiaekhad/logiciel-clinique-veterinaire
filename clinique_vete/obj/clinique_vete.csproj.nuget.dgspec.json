@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\depo\\clinique_v-t-rinaire\\clinique_vete\\clinique_vete.csproj": {}
+    "C:\\SQL\\clinique_vt_BD\\clinique_vete\\clinique_vete.csproj": {}
   },
   "projects": {
-    "C:\\depo\\clinique_v-t-rinaire\\clinique_vete\\clinique_vete.csproj": {
+    "C:\\SQL\\clinique_vt_BD\\clinique_vete\\clinique_vete.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\depo\\clinique_v-t-rinaire\\clinique_vete\\clinique_vete.csproj",
+        "projectUniqueName": "C:\\SQL\\clinique_vt_BD\\clinique_vete\\clinique_vete.csproj",
         "projectName": "clinique_vete",
-        "projectPath": "C:\\depo\\clinique_v-t-rinaire\\clinique_vete\\clinique_vete.csproj",
+        "projectPath": "C:\\SQL\\clinique_vt_BD\\clinique_vete\\clinique_vete.csproj",
         "packagesPath": "C:\\Users\\lamia\\.nuget\\packages\\",
-        "outputPath": "C:\\depo\\clinique_v-t-rinaire\\clinique_vete\\obj\\",
+        "outputPath": "C:\\SQL\\clinique_vt_BD\\clinique_vete\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.29, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

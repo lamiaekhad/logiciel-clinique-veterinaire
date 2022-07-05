@@ -1,79 +1,112 @@
 ﻿
+using MySql.Data.MySqlClient;
+connectTobase();
 string[,] animauxtab = new string[10, 7];
-affichermenu();
+selectchoice();
+
+
+ void connectTobase()
+{
+    string connectionString = null;
+    MySqlConnection cnn;
+    connectionString = "server=localhost;database=clinique_vt;uid=root;pwd=;";
+    cnn = new MySqlConnection(connectionString);
+
+    try
+    {
+        cnn.Open();
+        if (cnn.State == System.Data.ConnectionState.Open)
+        {
+            Console.WriteLine("la connexion a la BD est fonctionnelle");
+        }
+        cnn.Close();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("impossible d'ouvrir la connexion" + ex.Message);
+    }
+    Console.ReadKey();
+}
+
+void selectchoice()
+{
+    int option = 0;
+    do
+    {
+        affichermenu();
+        makechoice();
+    } while (option > 8 || option < 1);
+}
+void makechoice()
+{
+    string option2 = Console.ReadLine();
+
+    switch (option2)
+    {
+        case "1":
+            addanimal();
+            Console.Clear();
+            break;
+
+        case "2":
+            tableau();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "3":
+            proprietaire();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "4":
+            sommetab();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "5":
+            poidstotal();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "6":
+            coloranimal();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "7":
+            deleteanimal();
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+        case "8":
+            Quitter();
+            break;
+
+        default:
+            {
+                Console.WriteLine("Le choix n'est pas valide...");
+                break;
+            }
+    }
+}
 
 void affichermenu() //menu principal
 {
-    int option = 0;
-
-    do
-    {
-        Console.WriteLine("1- ajouter un animal");
-        Console.WriteLine("2- liste de tous les animaux en pension");
-        Console.WriteLine("3- liste des proprietaire");
-        Console.WriteLine("4- le nombre total d’animaux en pension ");
-        Console.WriteLine("5- le poids total de tous les animaux en pension");
-        Console.WriteLine("6- liste des animaux d’une couleur ");
-        Console.WriteLine("7- Retirer un animal de la liste");
-        Console.WriteLine("8- Quitter");
-        Console.WriteLine("Choisir une option");
-
-        string option2 = Console.ReadLine();
-        switch (option2)
-        {
-            case "1":
-                addanimal();
-                Console.Clear();
-                break;
-
-            case "2":
-                tableau();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "3":
-                proprietaire();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "4":
-                sommetab();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "5":
-                poidstotal();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "6":
-                coloranimal();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "7":
-                deleteanimal();
-                Console.ReadLine();
-                Console.Clear();
-                break;
-
-            case "8":
-                Quitter();
-                break;
-
-            default:
-                {
-                    Console.WriteLine("Le choix n'est pas valide...");
-                    break;
-                }
-        }
-
-    } while (option > 8 || option < 1);
+    Console.WriteLine("1- ajouter un animal");
+    Console.WriteLine("2- liste de tous les animaux en pension");
+    Console.WriteLine("3- liste des proprietaire");
+    Console.WriteLine("4- le nombre total d’animaux en pension ");
+    Console.WriteLine("5- le poids total de tous les animaux en pension");
+    Console.WriteLine("6- liste des animaux d’une couleur ");
+    Console.WriteLine("7- Retirer un animal de la liste");
+    Console.WriteLine("8- Quitter");
+    Console.WriteLine("Choisir une option");
 
 }
 
