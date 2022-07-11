@@ -4,9 +4,6 @@ using clinique_vete.cliniquevt;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-
-
-//Animals animal1 = new Animals();
 SQLDATA mysqldata = new SQLDATA();
 List<Animals> listanimal = new List<Animals>();
 
@@ -14,12 +11,12 @@ selectchoice();
 
 void affichermenu() //menu principal
 {
-    Console.WriteLine("1- ajouter un animal");
-    Console.WriteLine("2- liste de tous les animaux en pension");
-    Console.WriteLine("3- liste des proprietaire");
-    Console.WriteLine("4- le nombre total d’animaux en pension ");
-    Console.WriteLine("5- le poids total de tous les animaux en pension");
-    Console.WriteLine("6- liste des animaux d’une couleur ");
+    Console.WriteLine("1- Ajouter un animal");
+    Console.WriteLine("2- Liste de tous les animaux en pension");
+    Console.WriteLine("3- Liste des proprietaire");
+    Console.WriteLine("4- Le nombre total d’animaux en pension ");
+    Console.WriteLine("5- Le poids total de tous les animaux en pension");
+    Console.WriteLine("6- Liste des animaux d’une couleur ");
     Console.WriteLine("7- Retirer un animal de la liste");
     Console.WriteLine("8- Modifier un animal de la liste");
     Console.WriteLine("9- Quitter");
@@ -94,8 +91,10 @@ void Quitter() // (option 9)
 {
     Animals animal1 = new Animals();
     MySqlConnection conn = mysqldata.connectTobase();
-    Console.WriteLine("ajouter un animal: ");
+    Console.WriteLine("Ajouter un animal: ");
 
+    while (validationMaxAnimal()) { } 
+    
     // insert type animal
     do
     {
@@ -110,11 +109,12 @@ void Quitter() // (option 9)
         Console.WriteLine("Veuillez saisir le nom de l'animal: ");
         animal1.nomanimal = Console.ReadLine();
 
-    } while (validationstring(animal1.nomanimal) || animal1.typeanimal == "");
+    } while (validationstring(animal1.nomanimal) || animal1.nomanimal == "");
 
     // insert age animal
     bool isInt;
     int age;
+    
     do
     {
         Console.WriteLine("Veuillez saisir l'age de l'animal: ");
@@ -132,10 +132,10 @@ void Quitter() // (option 9)
         isdecimal = decimal.TryParse(Console.ReadLine(), out poids);
         if (isdecimal == false)
         {
-            Console.WriteLine("choix non valide");
+            Console.WriteLine("Le choix n'est pas valide...");
         }
 
-    } while (!isdecimal);
+    } while (!isdecimal || poids < 0);
     animal1.poidanimal = poids;
 
     //insert couleur animal
@@ -144,7 +144,7 @@ void Quitter() // (option 9)
         Console.WriteLine("Veuillez saisir la couleur de l'animal (rouge, violet,bleu): ");
         animal1.couleuranimal = Console.ReadLine();
 
-    } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") && validationstring(animal1.couleuranimal));
+    } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validationstring(animal1.couleuranimal));
 
     // insert proprietaire
     do
@@ -152,8 +152,8 @@ void Quitter() // (option 9)
         Console.WriteLine("Veuillez saisir le proprietaire de l'animal: ");
         animal1.propanimal = Console.ReadLine(); 
 
-    } while (validationstring(animal1.propanimal));
-
+    } while (validationstring(animal1.propanimal) || animal1.propanimal == "");
+    
     string sql = "INSERT INTO animal(typeanimal,nom,age,poids,couleur,proprietaire)" +
                  "VALUES (@typeanimal,@nomanimal,@ageanimal,@poidanimal,@couleuranimal,@propanimal)";
 
@@ -167,7 +167,8 @@ void Quitter() // (option 9)
 
     command.ExecuteReader();
     conn.Close();
-    Console.WriteLine("requete update termine ");
+    Console.WriteLine("Requete update termine ");
+    
     Console.ReadKey();
     Console.Clear();
 }
@@ -177,11 +178,11 @@ void tableau()  // Voir la liste de tous les animaux en pension (option 2)
 {
     Console.WriteLine("liste de tous les animaux en pension: ");
     Console.WriteLine("--------------------------------------------------------------------------");
-    Console.WriteLine("| ID " +"\t"+ "| TYPE ANIMAL" + "\t" + "| NOM" +"\t"+ "| AGE" + "\t" + "| POIDS" + "\t" + "| COULEUR" + "  " + "| PROPRIETAIRE");
+    Console.WriteLine("| ID " +"\t"+ "| TYPE ANIMAL" + "\t"  +"| NOM" +"\t"+ "| AGE" + "\t"  + "| POIDS" + "\t"+ "| COULEUR" + "  " + "| PROPRIETAIRE |");
     Console.WriteLine("--------------------------------------------------------------------------");
 
     MySqlConnection conn = mysqldata.connectTobase();
-    MySqlCommand command = new MySqlCommand("select * from animal", conn);
+    MySqlCommand command = new MySqlCommand("select * from animal order by id", conn);
 
     using (MySqlDataReader reader = command.ExecuteReader())
     {
@@ -205,6 +206,7 @@ void tableau()  // Voir la liste de tous les animaux en pension (option 2)
     }
     Console.WriteLine("--------------------------------------------------------------------------");
     conn.Close();   
+
     Console.ReadKey();
     Console.Clear();
 }
@@ -213,10 +215,10 @@ void printanimals(Animals animal1)
 {
    Console.WriteLine("|  "+ animal1.ID + "\t"+
                            "| " + animal1.typeanimal + "\t" + "\t" +
-                           "| " + animal1.nomanimal +  "\t" +
+                           "| " + animal1.nomanimal +  "\t"+ 
                            "| " + animal1.ageanimal +  "\t" +
                            "| " + animal1.poidanimal + "\t" +
-                           "| " + animal1.couleuranimal + "\t" +"   "+
+                           "| " + animal1.couleuranimal +  "    " +
                            "| " + animal1.propanimal + "\t" + "  |");
 }
 
@@ -244,6 +246,7 @@ void proprietaire()  //Voir la liste de tous les propriétaires (option 3)
     }
     Console.WriteLine("-----------------");
     conn.Close();
+
     Console.ReadKey();
     Console.Clear();
 }
@@ -271,14 +274,14 @@ void sommetab() // Voir le nombre total d’animaux en pension (option 4)
     }
     Console.WriteLine("-----------------");
     conn.Close();
+
     Console.ReadKey();
     Console.Clear();
 }
 
 void poidstotal() // Voir le poids total de tous les animaux en pension (option 5)
 {
-    Console.WriteLine("le poids total de tous les animaux en pension: ");
-    int sum = 0;
+    Console.WriteLine("Le poids total de tous les animaux en pension: ");
 
     Console.WriteLine("-----------------");
     Console.WriteLine("| POIDS TOTALE  |");
@@ -299,6 +302,7 @@ void poidstotal() // Voir le poids total de tous les animaux en pension (option 
     }
     Console.WriteLine("-----------------");
     conn.Close();
+
     Console.ReadKey();
     Console.Clear();
 }
@@ -306,14 +310,14 @@ void poidstotal() // Voir le poids total de tous les animaux en pension (option 
 void coloranimal() //Voir la liste des animaux selon la couleur (option 6)
 {
     Animals animal1 = new Animals();
-    Console.WriteLine("liste des animaux d’une couleur: ");
+    Console.WriteLine("Liste des animaux d’une couleur: ");
     
     do
     {
-        Console.WriteLine("veuillez saisir la couleur de recherche:   ");
+        Console.WriteLine("Veuillez saisir la couleur de recherche:   ");
         animal1.couleuranimal = Console.ReadLine();
 
-    } while (animal1.couleuranimal != "rouge" && animal1.couleuranimal != "violet" && animal1.couleuranimal != "bleu");
+    } while (animal1.couleuranimal != "rouge" && animal1.couleuranimal != "violet" && animal1.couleuranimal != "bleu" || validationstring(animal1.couleuranimal));
 
     Console.WriteLine("-------------------------------------------");
     Console.WriteLine("| ID " + "\t" + "| TYPE ANIMAL" + "\t" + "| NOM" + "\t" + "| COULEUR "+"|");
@@ -343,23 +347,25 @@ void coloranimal() //Voir la liste des animaux selon la couleur (option 6)
     }
     Console.WriteLine("-------------------------------------------");
     conn.Close();
+
     Console.ReadKey();
     Console.Clear();
 }
 
 void deleteanimal() //Retirer un animal de la liste (option 7)
 {
+    Animals animal1 = new Animals();
     int IDtoremove;
     bool isValide;
     do
     {
-        Console.WriteLine("inserer le ID de l'animal que vous voulez retirer de la liste: ");
+        Console.WriteLine("Inserer le ID de l'animal que vous voulez retirer de la liste: ");
         isValide = int.TryParse(Console.ReadLine(), out IDtoremove);
         if (isValide == false)
         {
-            Console.WriteLine("choix non valide");
+            Console.WriteLine("Le choix n'est pas valide...");
         }
-    } while (!isValide);
+    } while (!isValide || validationIdExist(IDtoremove));
    
     MySqlConnection conn = mysqldata.connectTobase();
     MySqlCommand command = new MySqlCommand("delete from animal where id = @id", conn);
@@ -367,6 +373,7 @@ void deleteanimal() //Retirer un animal de la liste (option 7)
     command.ExecuteReader();
     conn.Close();
     tableau();
+   
     Console.ReadKey();
     Console.Clear();
 }
@@ -374,45 +381,122 @@ void deleteanimal() //Retirer un animal de la liste (option 7)
 void modifierlist()
 {
     Animals animal1 = new Animals();
-   
-
     int IDamodifier;
     bool isValide;
-    do
+    do // choisir ID to update
     {
-        Console.WriteLine("Numero de l'animal a modifier: ");
+        Console.Write("Numéro de l’animal à modifier : ");
         isValide = int.TryParse(Console.ReadLine(), out IDamodifier);
         if (isValide == false)
         {
-            Console.WriteLine("choix non valide");
+            Console.WriteLine("Le choix n'est pas valide...");
+
         }
 
-    } while (!isValide);
+    } while (!isValide || validationIdExist(IDamodifier));
 
 
-    //int IDamodifier = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Nouveau nom de l'animal: ");
+    do //insert new nom
+    {
+        Console.Write("Nouveau nom de l’animal : ");
+        animal1.nomanimal = Console.ReadLine();
 
-    animal1.nomanimal = Console.ReadLine();
+    } while (validationstring(animal1.nomanimal) || animal1.nomanimal == "");
+
+    bool isInt;
+    int age;
+    do // insert new age
+    {
+        Console.Write("Nouveau age de l'animal: ");
+        isInt = int.TryParse(Console.ReadLine(), out age);
+
+    } while (validationint(age) || !isInt);
+    animal1.ageanimal = age;
+
+    // insert poids animal
+    bool isdecimal;
+    decimal poids;
+    do
+    {
+        Console.Write("Nouveau poids de l'animal: ");
+        isdecimal = decimal.TryParse(Console.ReadLine(), out poids);
+        if (isdecimal == false)
+        {
+            Console.WriteLine("Le choix n'est pas valide...");
+        }
+
+    } while (!isdecimal || poids < 0);
+    animal1.poidanimal = poids;
+
+    //insert couleur animal
+    do
+    {
+        Console.Write("Nouvelle couleur de l'animal (rouge, violet,bleu): ");
+        animal1.couleuranimal = Console.ReadLine();
+
+    } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validationstring(animal1.couleuranimal));
+
+    // insert proprietaire
+    do
+    {
+        Console.Write("Nouveau proprietaire de l'animal: ");
+        animal1.propanimal = Console.ReadLine();
+
+    } while (validationstring(animal1.propanimal) || animal1.propanimal == "");
+
     MySqlConnection conn = mysqldata.connectTobase();
-    MySqlCommand command = new MySqlCommand("update animal set nom = @nom where id = @id", conn);
-    command.Parameters.AddWithValue("@nom", animal1.nomanimal);
+    MySqlCommand command = new MySqlCommand("update animal set nom = @nom, age = @age, poids = @poids, couleur = @couleur, proprietaire =@proprietaire  where id = @id", conn);
+  
     command.Parameters.AddWithValue("@id", IDamodifier);
+    command.Parameters.AddWithValue("@nom", animal1.nomanimal);
+    command.Parameters.AddWithValue("@age", animal1.ageanimal);
+    command.Parameters.AddWithValue("@poids", animal1.poidanimal);
+    command.Parameters.AddWithValue("@couleur", animal1.couleuranimal);
+    command.Parameters.AddWithValue("@proprietaire", animal1.propanimal);
     command.ExecuteReader();
     conn.Close();
-    Console.WriteLine("le nom du pensionnaire" + " '" + IDamodifier + "' " + "a ete modifie.");
+    Console.WriteLine();
+    Console.WriteLine ("Le nom du pensionnaire" + " '" + IDamodifier + "' " + " a été modifié.");
     Console.ReadLine();
     Console.Clear();
 }
 
+bool validationIdExist(int IDamodifier)
+{
+    int exist = 0;
+    bool valide = false;
+    MySqlConnection conn1 = mysqldata.connectTobase();
+    MySqlCommand command2 = new MySqlCommand("select count(*) exist from animal where id=@id2", conn1);
+    command2.Parameters.AddWithValue("@id2", IDamodifier);
+    command2.Parameters.AddWithValue("exist", exist);
+    using (MySqlDataReader reader = command2.ExecuteReader())
+    {
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                exist = reader.GetInt32("exist");
+            }
+        }
+    }
+    if (exist==0)
+    {
+        valide = true;
+        Console.WriteLine("Votre choix n'existe pas");
+
+    }
+    command2.ExecuteReader();
+    conn1.Close();
+    return valide;
+}
 
  bool validationstring(string str)
 {
     bool valide = false;
-    if (!Regex.Match(str, "^[a-zA-Z]*$").Success)
+    if (!Regex.Match(str, "^[a-zA-Z-]*$").Success) 
     {
         valide = true;
-        Console.WriteLine("choix non valid");
+        Console.WriteLine("Le choix n'est pas valide...");
     }
     return valide;
 }
@@ -423,12 +507,44 @@ bool validationint(int inputint)
     if (!(inputint > 0 && inputint < 100))
     {
         valide = true;
-        Console.WriteLine("choix non valid");
+        Console.WriteLine("Le choix n'est pas valide...");
     }
     return valide;
 }
 
-
+bool validationMaxAnimal()
+{
+    int exist = 0;
+    bool valide = false;
+    MySqlConnection conn1 = mysqldata.connectTobase();
+    MySqlCommand command2 = new MySqlCommand("select count(*) exist from animal", conn1);
+    command2.Parameters.AddWithValue("exist", exist);
+    using (MySqlDataReader reader = command2.ExecuteReader())
+    {
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                exist = reader.GetInt32("exist");
+            }
+        }
+    }
+    if (exist >= 30)
+    {
+        valide = true;
+        Console.WriteLine();
+        Console.WriteLine("**Vous avez atteint la limite maximal des pensionnaires**");
+        Console.WriteLine();
+        selectchoice();
+    }
+    else
+    {
+        valide = false;
+    }
+    command2.ExecuteReader();
+    conn1.Close();
+    return valide;
+}
 
 
 
