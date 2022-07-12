@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace clinique_vete.cliniquevt
 {
-    internal class SQLDATA
+    internal class sqldata
     {
         public MySqlConnection connectTobase()
         {

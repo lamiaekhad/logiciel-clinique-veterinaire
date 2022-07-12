@@ -4,7 +4,7 @@ using clinique_vete.cliniquevt;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-SQLDATA mysqldata = new SQLDATA();
+sqldata mysqldata = new sqldata();
 List<Animals> listanimal = new List<Animals>();
 
 selectchoice();
@@ -481,7 +481,6 @@ bool validationIdExist(int IDamodifier)  //condition si le id exist
     {
         valide = true;
         Console.WriteLine("Votre choix n'existe pas");
-
     }
     command2.ExecuteReader();
     conn1.Close();
