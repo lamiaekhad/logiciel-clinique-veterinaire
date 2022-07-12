@@ -114,7 +114,6 @@ void Quitter() // (option 9)
     // insert age animal
     bool isInt;
     int age;
-    
     do
     {
         Console.WriteLine("Veuillez saisir l'age de l'animal: ");
@@ -134,7 +133,6 @@ void Quitter() // (option 9)
         {
             Console.WriteLine("Le choix n'est pas valide...");
         }
-
     } while (!isdecimal || poids < 0);
     animal1.poidanimal = poids;
 
@@ -378,7 +376,7 @@ void deleteanimal() //Retirer un animal de la liste (option 7)
     Console.Clear();
 }
 
-void modifierlist()
+void modifierlist() // modifier la liste (option 8)
 {
     Animals animal1 = new Animals();
     int IDamodifier;
@@ -394,7 +392,6 @@ void modifierlist()
         }
 
     } while (!isValide || validationIdExist(IDamodifier));
-
 
     do //insert new nom
     {
@@ -424,7 +421,6 @@ void modifierlist()
         {
             Console.WriteLine("Le choix n'est pas valide...");
         }
-
     } while (!isdecimal || poids < 0);
     animal1.poidanimal = poids;
 
@@ -453,15 +449,17 @@ void modifierlist()
     command.Parameters.AddWithValue("@poids", animal1.poidanimal);
     command.Parameters.AddWithValue("@couleur", animal1.couleuranimal);
     command.Parameters.AddWithValue("@proprietaire", animal1.propanimal);
+
     command.ExecuteReader();
     conn.Close();
+
     Console.WriteLine();
     Console.WriteLine ("Le nom du pensionnaire" + " '" + IDamodifier + "' " + " a été modifié.");
     Console.ReadLine();
     Console.Clear();
 }
 
-bool validationIdExist(int IDamodifier)
+bool validationIdExist(int IDamodifier)  //condition si le id exist
 {
     int exist = 0;
     bool valide = false;
@@ -493,7 +491,7 @@ bool validationIdExist(int IDamodifier)
  bool validationstring(string str)
 {
     bool valide = false;
-    if (!Regex.Match(str, "^[a-zA-Z-]*$").Success) 
+    if (!Regex.Match(str, "^[a-zA-Z]*$").Success) 
     {
         valide = true;
         Console.WriteLine("Le choix n'est pas valide...");
