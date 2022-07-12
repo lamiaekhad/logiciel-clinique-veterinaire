@@ -165,9 +165,7 @@ void Quitter() // (option 9)
 
     command.ExecuteReader();
     conn.Close();
-    Console.WriteLine("Requete update termine ");
     
-    Console.ReadKey();
     Console.Clear();
 }
 
@@ -509,7 +507,7 @@ bool validationint(int inputint)
     return valide;
 }
 
-bool validationMaxAnimal()
+bool validationMaxAnimal() //condition limite de places
 {
     int exist = 0;
     bool valide = false;
