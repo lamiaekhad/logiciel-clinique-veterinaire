@@ -140,7 +140,7 @@ void Quitter() // (option 9)
     do
     {
         Console.WriteLine("Veuillez saisir la couleur de l'animal (rouge, violet,bleu): ");
-        animal1.couleuranimal = Console.ReadLine();
+        animal1.couleuranimal = Console.ReadLine().ToLower();
 
     } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validationstring(animal1.couleuranimal));
 
@@ -173,9 +173,9 @@ void Quitter() // (option 9)
 void tableau()  // Voir la liste de tous les animaux en pension (option 2)
 {
     Console.WriteLine("liste de tous les animaux en pension: ");
-    Console.WriteLine("--------------------------------------------------------------------------");
-    Console.WriteLine("| ID " +"\t"+ "| TYPE ANIMAL" + "\t"  +"| NOM" +"\t"+ "| AGE" + "\t"  + "| POIDS" + "\t"+ "| COULEUR" + "  " + "| PROPRIETAIRE |");
-    Console.WriteLine("--------------------------------------------------------------------------");
+    Console.WriteLine("------------------------------------------------------------------------------");
+    Console.WriteLine("| ID " +"\t"+ "| TYPE ANIMAL" + "\t"  +"| NOM" +"\t"+ "| AGE" + "\t"  + "| POIDS" + "\t"+"   "+ "| COULEUR" + "  " + "| PROPRIETAIRE |");
+    Console.WriteLine("------------------------------------------------------------------------------");
 
     MySqlConnection conn = mysqldata.connectTobase();
     MySqlCommand command = new MySqlCommand("select * from animal order by id", conn);
@@ -200,7 +200,7 @@ void tableau()  // Voir la liste de tous les animaux en pension (option 2)
             }
         }
     }
-    Console.WriteLine("--------------------------------------------------------------------------");
+    Console.WriteLine("------------------------------------------------------------------------------");
     conn.Close();   
 
     Console.ReadKey();
@@ -209,15 +209,18 @@ void tableau()  // Voir la liste de tous les animaux en pension (option 2)
 
 void printanimals(Animals animal1)
 {
-   Console.WriteLine("|  "+ animal1.ID + "\t"+
-                           "| " + animal1.typeanimal + "\t" + "\t" +
-                           "| " + animal1.nomanimal +  "\t"+ 
-                           "| " + animal1.ageanimal +  "\t" +
-                           "| " + animal1.poidanimal + "\t" +
-                           "| " + animal1.couleuranimal +  "    " +
-                           "| " + animal1.propanimal + "\t" + "  |");
+    foreach (var animal in listanimal)
+    {
+        Console.Write(animal1.ID.ToString().PadLeft(3));
+        Console.Write(animal1.typeanimal.PadLeft(15));
+        Console.Write(animal1.nomanimal.PadLeft(12));
+        Console.Write(animal1.ageanimal.ToString().PadLeft(8));
+        Console.Write(animal1.poidanimal.ToString().PadLeft(10));
+        Console.Write(animal1.couleuranimal.PadLeft(12));
+        Console.WriteLine(animal1.propanimal.PadLeft(10));
+    }
+ 
 }
-
 
 void proprietaire()  //Voir la liste de tous les propriétaires (option 3)
 {
@@ -311,7 +314,7 @@ void coloranimal() //Voir la liste des animaux selon la couleur (option 6)
     do
     {
         Console.WriteLine("Veuillez saisir la couleur de recherche:   ");
-        animal1.couleuranimal = Console.ReadLine();
+        animal1.couleuranimal = Console.ReadLine().ToLower();
 
     } while (animal1.couleuranimal != "rouge" && animal1.couleuranimal != "violet" && animal1.couleuranimal != "bleu" || validationstring(animal1.couleuranimal));
 
@@ -426,7 +429,7 @@ void modifierlist() // modifier la liste (option 8)
     do
     {
         Console.Write("Nouvelle couleur de l'animal (rouge, violet,bleu): ");
-        animal1.couleuranimal = Console.ReadLine();
+        animal1.couleuranimal = Console.ReadLine().ToLower();
 
     } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validationstring(animal1.couleuranimal));
 
