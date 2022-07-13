@@ -32,17 +32,7 @@ namespace clinique_vete.cliniquevt
 
         }
        
-       public Animals(int id, string typeanimal, string nomanimal, int ageanimal, decimal poidanimal, string couleuranimal, string propanimal)
-        {
-            this.ID = id;
-            this.typeanimal = typeanimal;
-            this.nomanimal = nomanimal;
-            this.ageanimal = ageanimal;
-            this.poidanimal = poidanimal;
-            this.couleuranimal = couleuranimal;
-            this.propanimal = propanimal;
-        }
-       
+    
 
     }
 }
