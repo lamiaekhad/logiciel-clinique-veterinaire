@@ -7,6 +7,11 @@ using System.Text.RegularExpressions;
 sqldata mysqldata = new sqldata();
 List<Animals> listanimal = new List<Animals>();
 validation validation = new validation();
+
+const string rouge = "rouge";
+const string violet = "violet";
+const string bleu = "bleu";
+
 selectchoice();
 
 void affichermenu() //menu principal
@@ -101,7 +106,7 @@ void Quitter() // (option 9)
     try
     {
         string sql = "INSERT INTO animal(typeanimal,nom,age,poids,couleur,proprietaire)" +
-                "VALUES (@typeanimal,@nomanimal,@ageanimal,@poidanimal,@couleuranimal,@propanimal)";
+                     "VALUES (@typeanimal,@nomanimal,@ageanimal,@poidanimal,@couleuranimal,@propanimal)";
 
         MySqlCommand command = new MySqlCommand(sql, conn);
         command.Parameters.AddWithValue("@typeanimal", animal1.typeanimal);
@@ -124,7 +129,6 @@ void Quitter() // (option 9)
     Console.ReadKey();
     Console.Clear();
 }
-
 
 void tableau()  // Voir la liste de tous les animaux en pension (option 2)
 {
@@ -302,6 +306,7 @@ void poidstotal() // Voir le poids total de tous les animaux en pension (option 
 void coloranimal() //Voir la liste des animaux selon la couleur (option 6)
 {
     Animals animal1 = new Animals();
+    insert insert2 = new insert();
     Console.WriteLine("Liste des animaux d’une couleur: ");
     
     do
@@ -309,7 +314,7 @@ void coloranimal() //Voir la liste des animaux selon la couleur (option 6)
         Console.WriteLine("Veuillez saisir la couleur de recherche:   ");
         animal1.couleuranimal = Console.ReadLine().ToLower();
 
-    } while (animal1.couleuranimal != "rouge" && animal1.couleuranimal != "violet" && animal1.couleuranimal != "bleu" || validation.validationstring(animal1.couleuranimal));
+    } while (animal1.couleuranimal != rouge && animal1.couleuranimal != violet && animal1.couleuranimal != bleu || validation.validationString(animal1.couleuranimal));
 
     Console.WriteLine("-------------------------------------------");
     Console.WriteLine("| ID " + "\t" + "| TYPE ANIMAL" + "\t" + "| NOM" + "\t" + "| COULEUR "+"|");
