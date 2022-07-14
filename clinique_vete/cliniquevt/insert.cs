@@ -11,6 +11,10 @@ namespace clinique_vete.cliniquevt
         Animals animal1 = new Animals();
         validation validation = new validation();
 
+        const string rouge = "rouge";
+        const string violet = "violet";
+        const string bleu = "bleu";
+
         public void insererinfo(Animals animal1)
         {
             // insert type animal
@@ -19,7 +23,7 @@ namespace clinique_vete.cliniquevt
                 Console.WriteLine("Veuillez saisir le type de l'animal: ");
                 animal1.typeanimal = Console.ReadLine();
 
-            } while (validation.validationstring(animal1.typeanimal) || animal1.typeanimal == "");
+            } while (validation.validationString(animal1.typeanimal) || animal1.typeanimal == "");
 
             //insert nom animal
             do
@@ -27,7 +31,7 @@ namespace clinique_vete.cliniquevt
                 Console.WriteLine("Veuillez saisir le nom de l'animal: ");
                 animal1.nomanimal = Console.ReadLine();
 
-            } while (validation.validationstring(animal1.nomanimal) || animal1.nomanimal == "");
+            } while (validation.validationString(animal1.nomanimal) || animal1.nomanimal == "");
 
             // insert age animal
             bool isInt;
@@ -37,7 +41,7 @@ namespace clinique_vete.cliniquevt
                 Console.WriteLine("Veuillez saisir l'age de l'animal: ");
                 isInt = int.TryParse(Console.ReadLine(), out age);
 
-            } while (validation.validationint(age) || !isInt);
+            } while (validation.ValidationAge(age) || !isInt);
             animal1.ageanimal = age;
 
             // insert poids animal
@@ -60,7 +64,7 @@ namespace clinique_vete.cliniquevt
                 Console.WriteLine("Veuillez saisir la couleur de l'animal (rouge, violet,bleu): ");
                 animal1.couleuranimal = Console.ReadLine().ToLower();
 
-            } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validation.validationstring(animal1.couleuranimal));
+            } while ((animal1.couleuranimal != rouge) && (animal1.couleuranimal != bleu) && (animal1.couleuranimal != violet) || validation.validationString(animal1.couleuranimal));
 
             // insert proprietaire
             do
@@ -68,20 +72,18 @@ namespace clinique_vete.cliniquevt
                 Console.WriteLine("Veuillez saisir le proprietaire de l'animal: ");
                 animal1.propanimal = Console.ReadLine();
 
-            } while (validation.validationstring(animal1.propanimal) || animal1.propanimal == "");
+            } while (validation.validationString(animal1.propanimal) || animal1.propanimal.Equals(""));
 
         }
 
         public void InsertInfoModification(Animals animal1)
         {
-          
-
             do //insert new nom
             {
                 Console.Write("Nouveau nom de l’animal : ");
                 animal1.nomanimal = Console.ReadLine();
 
-            } while (validation.validationstring(animal1.nomanimal) || animal1.nomanimal == "");
+            } while (validation.validationString(animal1.nomanimal) || animal1.nomanimal.Equals(""));
 
             bool isInt;
             int age;
@@ -90,7 +92,7 @@ namespace clinique_vete.cliniquevt
                 Console.Write("Nouveau age de l'animal: ");
                 isInt = int.TryParse(Console.ReadLine(), out age);
 
-            } while (validation.validationint(age) || !isInt);
+            } while (validation.ValidationAge(age) || !isInt);
             animal1.ageanimal = age;
 
             // insert poids animal
@@ -113,7 +115,7 @@ namespace clinique_vete.cliniquevt
                 Console.Write("Nouvelle couleur de l'animal (rouge, violet,bleu): ");
                 animal1.couleuranimal = Console.ReadLine().ToLower();
 
-            } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validation.validationstring(animal1.couleuranimal));
+            } while ((animal1.couleuranimal != rouge) && (animal1.couleuranimal != bleu) && (animal1.couleuranimal != violet) || validation.validationString(animal1.couleuranimal));
 
             // insert proprietaire
             do
@@ -121,7 +123,7 @@ namespace clinique_vete.cliniquevt
                 Console.Write("Nouveau proprietaire de l'animal: ");
                 animal1.propanimal = Console.ReadLine();
 
-            } while (validation.validationstring(animal1.propanimal) || animal1.propanimal == "");
+            } while (validation.validationString(animal1.propanimal) || animal1.propanimal.Equals(""));
         }
 
 
