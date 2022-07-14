@@ -72,6 +72,57 @@ namespace clinique_vete.cliniquevt
 
         }
 
+        public void InsertInfoModification(Animals animal1)
+        {
+          
+
+            do //insert new nom
+            {
+                Console.Write("Nouveau nom de l’animal : ");
+                animal1.nomanimal = Console.ReadLine();
+
+            } while (validation.validationstring(animal1.nomanimal) || animal1.nomanimal == "");
+
+            bool isInt;
+            int age;
+            do // insert new age
+            {
+                Console.Write("Nouveau age de l'animal: ");
+                isInt = int.TryParse(Console.ReadLine(), out age);
+
+            } while (validation.validationint(age) || !isInt);
+            animal1.ageanimal = age;
+
+            // insert poids animal
+            bool isdecimal;
+            decimal poids;
+            do
+            {
+                Console.Write("Nouveau poids de l'animal: ");
+                isdecimal = decimal.TryParse(Console.ReadLine(), out poids);
+                if (isdecimal == false)
+                {
+                    Console.WriteLine("Le choix n'est pas valide...");
+                }
+            } while (!isdecimal || poids < 0);
+            animal1.poidanimal = poids;
+
+            //insert couleur animal
+            do
+            {
+                Console.Write("Nouvelle couleur de l'animal (rouge, violet,bleu): ");
+                animal1.couleuranimal = Console.ReadLine().ToLower();
+
+            } while ((animal1.couleuranimal != "rouge") && (animal1.couleuranimal != "bleu") && (animal1.couleuranimal != "violet") || validation.validationstring(animal1.couleuranimal));
+
+            // insert proprietaire
+            do
+            {
+                Console.Write("Nouveau proprietaire de l'animal: ");
+                animal1.propanimal = Console.ReadLine();
+
+            } while (validation.validationstring(animal1.propanimal) || animal1.propanimal == "");
+        }
 
 
     }
